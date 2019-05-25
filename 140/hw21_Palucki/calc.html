@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Quadratic Calculator</title>
+<script>
+var a = parseFloat(window.prompt("A:"));
+var b = parseFloat(window.prompt("B:"));
+var c = parseFloat(window.prompt("C:"));
+
+function getPos(a, b, c) {
+	var result = (((-1*b) + Math.sqrt(Math.pow(b,2)) - (4*a*c))/(2*a));
+	return result
+}
+
+function getNeg(a, b, c) {
+	var result = (((-1*b) - Math.sqrt(Math.pow(b,2)) - (4*a*c))/(2*a));
+	return result;
+
+}
+
+document.writeln("Possible Answers: (" + getPos(a,b,c) + "," + (getNeg(a,b,c) + ")"));
+
+</script>
+</head>
+<body>
+<a href="hw8.html"><-back</a>
+</body>
+</html>

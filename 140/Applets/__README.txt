@@ -1,0 +1,1 @@
+The included JAR files ("apps") are those referenced in Explorations in Computer Science. Apps can be run by double-clicking the .jar file on any computer with a valid Java Runtime Environment (JRE) properly installed. The JRE can be downloaded from http://java.oracle.com.

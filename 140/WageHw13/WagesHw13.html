@@ -1,0 +1,31 @@
+<!--Kyle Palucki HW13-->
+
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<script>
+var hrsWorked = parseFloat(window.prompt("Enter hours worked"));
+var payRate = parseFloat(window.prompt("Enter pay rate"));
+
+var finalPay;
+
+if (hrsWorked <= 40) {
+	finalPay = hrsWorked * payRate;
+} else  {
+	var overTime = hrsWorked - 40;
+	var timeAndHalf = 1.5 * payRate;
+	
+	var otPay = overTime * timeAndHalf;
+	var nPay = 40 * payRate;
+	
+	finalPay = otPay + nPay;
+}
+
+document.write("Total pay: $" + finalPay);
+</script>
+<head>
+<body>
+</body>
+</html>

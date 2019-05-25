@@ -1,0 +1,11 @@
+var numTests = parseInt(window.prompt("Enter number of tests")); //number of iterations
+var total = 0; //sum of all test scores
+for (i=0;i<numTests;i++) {
+	var score = parseFloat(window.prompt("Enter test score"));
+	total += score;
+
+}
+
+var avg = total / numTests; //sum of test scores divided by number of tests (average)
+
+document.writeln("Average score: " + avg);

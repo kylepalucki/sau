@@ -1,0 +1,40 @@
+<!-- Kyle Palucki HW14-->
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title></title>
+<script>
+var hrsWorked = parseFloat(window.prompt("Enter hours worked"));
+var wage = parseFloat(window.prompt("Enter hourly wage"));
+var finalPay;
+
+if (hrsWorked <= 40) {
+	finalPay = hrsWorked * wage;
+} else if (hrsWorked > 40 && hrsWorked <= 54) {
+	var otWage = 1.5 * wage;
+	
+	var nPay = 40 * wage;
+	var otPay = (hrsWorked - 40) * otWage;
+	
+	finalPay = nPay + otPay;
+} else if (hrsWorked > 54) {
+	var otWage = 1.5 * wage;
+	var dWage = 2 * wage;
+	
+	var nPay = 40 * wage;
+	var otPay = 14 * otWage;
+	var dPay = (hrsWorked - 54) * dWage;
+	
+	finalPay = nPay + otPay + dPay;
+	
+}
+
+document.writeln("Weekly pay: $" + finalPay);
+
+
+</script>
+</head>
+<body>
+</body>
+</html>

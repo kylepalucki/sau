@@ -1,0 +1,39 @@
+<!-- 
+Kyle Palucki
+Hw20
+11/07/2017
+-->
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset = "utf-8">
+<title>Hw20</title>
+<script>
+var a = [90,3,40,16,80];
+
+
+function getLargest(array) {
+
+	var largest = array[0];
+	for (i = 0; i < array.length; i++) {
+		if (array[i] > largest) {
+			largest = array[i];
+		}
+	}
+	return largest;
+}
+var l = getLargest(a);
+
+document.writeln("The largest element in the array is: " + l);
+</script>
+
+</head>
+
+<body>
+<form 
+</body>
+
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<!--Kyle Palucki 3rd hour Wojcik's spring semester web design - Wes Freitag is by best friend and I love him.-->
+<title>
+What constitutes a good website?
+</title>
+</head>
+<body style = "color: #cc00ff; background-color: #a97a2f">
+<h1 style = "color: #e9a72e">What Constitutes a Good Website?</h1>
+<h2 style = "color: #00cc00">Overview of information</h2>
+<p>This website is designed to help Mrs. Wojcik's students understand and <b>REMEMBER</b> the key elements of web design creation. this information will be evaluated on each website the students design on their own.</p>
+<p>There are <i>five items</i> that should be included on each website: </p>
+	<ol style = "color: #ff0000">
+		<li>Metatags</li>
+			<ul style = "list-style-type: hebrew; color: #00ffff">
+				<li>Title tag</li>
+				<li>Keyword tag</li>
+				<li>Description tag</li>
+			</ul>
+		<li>Fonts</li>
+		<li>Color</li>
+		<li>Pictures/Graphics</li>
+		<li>Consider End User</li>
+	</ol>
+	<hr style = "width: 100%; height: 2px; color: blue; background-color: blue"/>
+	<address style = "color: #9900cc">Wojcik's Web Design Class of 2017 &#183; Victor J. Andrew High School &#183; Tinley Park, IL 60487</address>
+	<p style = "text-align: right; color: #9900cc">&#169; Palucki 2017</p>
+	
+</body>
+</html>

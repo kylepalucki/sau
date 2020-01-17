@@ -46,6 +46,11 @@ public class avgc {
 					}
 				}
 				System.out.println("]");
+			} else if (v.equalsIgnoreCase("?")) {
+				System.out.println("---------------------------AVERAGE CALCULATOR-------------------");
+				System.out.println("   Enter numbers separated by enter key to add to average calc  ");
+				System.out.println("------------------------------commands--------------------------");
+				System.out.println("r - remove | q - quit | g - calculate/continue | v - get added values");
 			}
 			else {
 				try {

@@ -12,16 +12,17 @@ public class TreasureMap {
         int start = 0;
         try {
             board = createBoard();
-            start = getStart();
+            start = board[9][0];
         } catch (FileNotFoundException ex) {
             System.out.println(ex);
         }
-        display(board);
-        System.out.println("start: " + start);
+        System.out.println(displayBoard(board)+"\n\n\n");
+        //display(board);
         findTreasure(start, board); 
     }
+    
     private static int[][] createBoard() throws FileNotFoundException{
-        int[][] board = new int[9][9];
+        int[][] board = new int[10][];
         File f = new File("map.txt");
         Scanner s = new Scanner(f);
         int i = 0;
@@ -29,42 +30,35 @@ public class TreasureMap {
         while(s.hasNextInt()) {
             nums[i++] = s.nextInt();
         }
-        int counter=0;
+        i=0;
+        for (int j = 0; j < 9; j++) {
+            board[j] = new int[9];
+        }
         for (int rows = 0; rows < 9; rows++) {
             for (int cols = 0; cols < 9; cols++) {
-                board[rows][cols] = nums[counter];
-                counter++;
+                board[rows][cols] = nums[i++];
             }
         }
+        board[9] = new int[1];
+        board[9][0] = nums[81];
         return board;
     }
     
-    private static int getStart() throws FileNotFoundException {
-        File f = new File("map.txt");
-        Scanner s = new Scanner(f);
-        int i = 0;
-        int[] nums = new int[82];
-        while(s.hasNextInt()) {
-            nums[i++] = s.nextInt();
-        }
-        return nums[81];
-    }
     
     private static void findTreasure(int start, int[][] board) {
         boolean found = false;
         int x = start/10;
         int y = start%10;
+        System.out.println(start);
         while (!found) {
             int next = board[x-1][y-1];
-            System.out.println("next " + next);
-            if (next<0) {
-                System.out.println("The Treasure is " + next);
-                found=true;
+            System.out.println(next);
+            if (board[(next/10)-1][(next%10)-1]<0) {
+                System.out.println("The treasure is: " + board[(next/10)-1][(next%10)-1]);
+                found = true;
             } else {
-                System.out.println(next);
-                x = board[x][y]/10;
-                y = board[x][y]%10;
-
+                x = next/10;
+                y = next%10;
             }
         }
     }
@@ -87,9 +81,7 @@ public class TreasureMap {
         int coin = random.nextInt(2);
         return coin == 0 ? num : num*-1;
     }
-    
-    
-    
+
     private static void display(int[][] data) {
         String s = "";
         for (int r=0;r<data.length;r++) {
@@ -101,19 +93,18 @@ public class TreasureMap {
         System.out.println(s);
     }
     
-    private static void displayBoard(int[][] data){
-        display(data);
-        System.out.println("     1     2     3     4     5     6     7     8     9   ");
-        System.out.println("  +-----------------------------------------------------+");
+    private static String displayBoard(int[][] data){
+        String f = "";
+        f += String.format("%7s","1 2 3 4 5 6 7 8 9 \n");
+        f+= ("  +-----------------------------------------------------+\n");
         System.out.print("1 | ");
         for (int i=0; i < data.length; i++) {
-            for(int j = 0; j < data[i].length; i++) {
-                System.out.print(data[j][i] + " |  ");
-                if (j==data[j].length-2) System.out.println();
+            for(int j = 0; j < data[i].length-1; i++) {
+                f += String.format("%7s",data[j][i] + " | ");
             }
-            System.out.println(i==8 ? 
-                    "  +-----+-----+-----+-----+-----+-----+-----+-----+-----+" :
-                    "  +-----------------------------------------------------+");
+            f+="\n";      
         }
+        f+= ("  +-----------------------------------------------------+");
+        return f;
     }
 }

@@ -16,7 +16,7 @@ public class TreasureMap {
         } catch (FileNotFoundException ex) {
             System.out.println(ex);
         }
-        System.out.println(displayBoard(board)+"\n\n\n");
+        System.out.println(displayBoard(board)+"\n\n");
         //display(board);
         findTreasure(start, board); 
     }
@@ -62,6 +62,25 @@ public class TreasureMap {
             }
         }
     }
+    private static String displayBoard(int[][] data){
+        String f = "";
+        for (int i = 1; i <= 9; i++) {
+            f += String.format("%6s", i);
+        }
+        f+= ("\n   +-----------------------------------------------------+\n");
+        for (int i=0; i < data.length-1; i++) {
+            f+= i+1 + "   ";
+            for(int j = 0; j < data[i].length; j++) {
+                f += String.format("%6s", data[i][j] + " |");
+            }
+            f+="\n";   
+            if (i<8){
+                f+= ("   +-----+-----+-----+-----+-----+-----+-----+-----+-----+\n");
+            }
+        }
+        f+= ("   +-----------------------------------------------------+");
+        return f;
+    }
     
     private static int[][] createRandomBoard() {
         int[][] board = new int[9][9];
@@ -93,18 +112,5 @@ public class TreasureMap {
         System.out.println(s);
     }
     
-    private static String displayBoard(int[][] data){
-        String f = "";
-        f += String.format("%7s","1 2 3 4 5 6 7 8 9 \n");
-        f+= ("  +-----------------------------------------------------+\n");
-        System.out.print("1 | ");
-        for (int i=0; i < data.length; i++) {
-            for(int j = 0; j < data[i].length-1; i++) {
-                f += String.format("%7s",data[j][i] + " | ");
-            }
-            f+="\n";      
-        }
-        f+= ("  +-----------------------------------------------------+");
-        return f;
-    }
+    
 }

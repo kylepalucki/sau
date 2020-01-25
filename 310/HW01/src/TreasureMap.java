@@ -16,7 +16,7 @@ public class TreasureMap {
         } catch (FileNotFoundException ex) {
             System.out.println(ex);
         }
-        System.out.println(displayBoard(board)+"\n\n");
+        System.out.println(displayBoard(board)+"\n\n"/*+ "start: " + start*/);
         //display(board);
         findTreasure(start, board); 
     }
@@ -82,15 +82,21 @@ public class TreasureMap {
         return f;
     }
     
+    //this works but doesnt dynamically assign the start number
     private static int[][] createRandomBoard() {
-        int[][] board = new int[9][9];
-        int counter=0;
+        int[][] board = new int[10][0];
+        for (int j = 0; j < 9; j++) {
+            board[j] = new int[9];
+        }
         for (int rows = 0; rows < 9; rows++) {
             for (int cols = 0; cols < 9; cols++) {
                 board[rows][cols] = gen();
-                counter++;
             }
         }
+        board[9] = new int[1];
+        int x=0,y=0;
+        
+        board[9][0] = board [0][0]; //<-bad
         return board;
     }
     private static int gen() {

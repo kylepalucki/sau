@@ -5,6 +5,7 @@ public class Tester_ArrayList {
         
         ArrayList<TestResultPart_1> tests;
         
+        
         System.out.println("\n------------------------------");
         System.out.println("Testing Interface Methods with MyArrayList Object");
         tests = new ArrayList<>();
@@ -39,9 +40,6 @@ public class Tester_ArrayList {
         TestResultPart_1.reportTestResultPart_1s(tests);
     }
 
-    /*
-     * Test all methods specified in the MyList Interface.
-     */
     public static void runCommonTests(ArrayList<TestResultPart_1> tests, MyList<String> list){
         
         // Run the tests on MyArrayList

@@ -12,19 +12,18 @@ public class MyArrayListOp<E> extends MyArrayList<E> {
         super(eArr);
     }
     
+    @Override
     public void clear() {
-        for (int i = 0; i < super.size; i++) {
-            this.remove(i);
+        for (int i = 0; i < size(); i++){
+            arr[i] = null;
         }
+        trimToSize();
     }
     
     public E removeLast() {
-        int c=0;
-        for (int i = size-1; i>=0; i--){
-            if (arr[i] != null) c = i;
-        }
-        E obj = arr[c];
-        arr[c] = null;
+        E obj = !isEmpty() ? getLast() : null;
+        if (!isEmpty()) arr[size-1] = null;
+        trimToSize();
         return obj;
     }
 }

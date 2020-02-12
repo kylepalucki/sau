@@ -1,13 +1,14 @@
 
 
 public abstract class MyAbstractList<E> implements MyList<E> {
-        protected int size;
-        @Override
-        public int size() {
-            return size;
-        }
+    protected int size;
+    @Override
+    public int size() {
+        return size;
+    }
+        
 	
-        public abstract void add(E e);
+    public abstract void add(E e);
 	public abstract void addFirst(E e);
 	
 	public abstract void addLast(E e);

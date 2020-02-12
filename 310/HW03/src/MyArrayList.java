@@ -45,10 +45,16 @@ public class MyArrayList<E> extends MyAbstractList<E> {
      }
 
     public void ensureCapacity(int newCap) {
+        if (newCap>size) {
         E[] a = (E[])new Object[newCap];
-        System.arraycopy(arr, 0, a, 0, arr.length);
+        //System.arraycopy(arr, 0, a, 0, arr.length);
+        int c=0;
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] != null) a[c] = arr[i];
+        }
         arr = a;
         super.size = arr.length;
+        }
     }
 
     @Override
@@ -62,6 +68,7 @@ public class MyArrayList<E> extends MyAbstractList<E> {
     public E removeLast() {
         E last = arr[arr.length-1];
         arr[arr.length-1] = null;
+        trimToSize();
         return last;
     }
 
@@ -134,14 +141,14 @@ public class MyArrayList<E> extends MyAbstractList<E> {
         }
         E[] a = (E[])new Object[c];
         c=0;
-        for (int i = 0; i < size; i++) {
+        for (int i = 0; i < arr.length; i++) {
             if (arr[i]!=null){
                 a[c] = arr[i];
                 c++;
             }
         }
         arr = a;
-        size = arr.length;
+        super.size = arr.length;
     }
 
     @Override
@@ -165,6 +172,7 @@ public class MyArrayList<E> extends MyAbstractList<E> {
             ensureCapacity(size+1);
             add(e);
         }
+        //trimToSize();
     }
 
     @Override
@@ -174,6 +182,7 @@ public class MyArrayList<E> extends MyAbstractList<E> {
 
     @Override
     public void addLast(E e) {
+        ensureCapacity(size+1);
         arr[size-1] = e;
     }
 

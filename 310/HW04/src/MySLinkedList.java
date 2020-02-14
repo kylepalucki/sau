@@ -69,14 +69,13 @@ public class MySLinkedList<E> extends MyAbstractList<E>{
             head = newLink;
             tail = head;    
         }else if (size == 1) {
+            newLink.next = tail;
             head = newLink;
-            head.next = tail;
         } else {
             newLink.next = head;
             head = newLink;
         }
         size++;
-        
     }
 
     @Override
@@ -207,7 +206,7 @@ public class MySLinkedList<E> extends MyAbstractList<E>{
         if (size==1) {
             head = newLink;
             tail = head;
-            head.next = tail;
+            head.next = temp.next;
         } else {
             head = newLink;
             head.next = temp.next;
@@ -227,7 +226,7 @@ public class MySLinkedList<E> extends MyAbstractList<E>{
            head.next = tail;
            head = tail;
        }else {
-            for (int i = 0; i < size-1; i++) {
+            for (int i = 0; i < size-2; i++) {
                 node = node.next;
             }
             node.next = newLink;
@@ -329,19 +328,28 @@ public class MySLinkedList<E> extends MyAbstractList<E>{
         if (i<0||i>size-1) throw new IndexOutOfBoundsException();
         SNode<E> newLink = new SNode<>(e);
         SNode<E> node = head;
-        for (int j = 0; j < i-1; j++) {
-            if (node.next==null) throw new IndexOutOfBoundsException();
-            node = node.next;
+        if (isEmpty()||size==1) {
+            if(i==0) {
+                return setFirst(e);
+            }
+            else throw new IndexOutOfBoundsException();
         }
-        SNode<E> temp = node.next;
-        newLink.next = temp.next;
-        node.next = newLink;
-        newLink = temp;
-        return temp.e;
+        else {
+            if (i==0) return setFirst(e);
+            else if (i==size-1) return setLast(e);
+            for (int j = 0; j < i-1; j++) {
+                if (node.next==null) throw new IndexOutOfBoundsException();
+                node = node.next;
+            }
+            SNode<E> temp = node.next;
+            newLink.next = temp.next;
+            node.next = newLink;
+            newLink = temp;
+            return temp.e;
+        }
         
     }
 
-     
     @Override
     public String toString() {
         String s = "";

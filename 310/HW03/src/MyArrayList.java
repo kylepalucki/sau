@@ -39,7 +39,12 @@ public class MyArrayList<E> extends MyAbstractList<E> {
 
     @Override
     public E getFirst() throws IndexOutOfBoundsException {
-        return arr.length>0 ? arr[0] : null;
+    	try {
+    		if (size>0) return arr[0];
+    		else return null;
+    	} catch (ArrayIndexOutOfBoundsException ex) {
+    		throw ex;
+    	}
     }
     @Override
      public E getLast() throws IndexOutOfBoundsException {
@@ -199,19 +204,8 @@ public class MyArrayList<E> extends MyAbstractList<E> {
     public E setFirst(E e) {
         E obj = arr.length>0 ? arr[0] : null;
         trimToSize();
-        E[] s = !isEmpty() ? (E[])new Object[size-1] : (E[]) new Object[0];
-
-    	ensureCapacity(size+1);
-    	int c = 0;
-    	for (int i = 1; i < s.length; i++) {
-    		s[c] = arr[i];
-    		c++;
-    	}
-    	arr[0] = e;
-    	c=0;
-    	for (int i = 1; i < s.length; i++) {
-            arr[i] = s[c];
-            c++;
+        if (size >0) {
+        	arr[0] = e;
         }
        
         trimToSize();
@@ -253,17 +247,18 @@ public class MyArrayList<E> extends MyAbstractList<E> {
         try {
             return arr[i];
         } catch (ArrayIndexOutOfBoundsException ex) {
-            return null;
+            throw ex;
         }
     }
 
     @Override
     public E set(int i, E e) throws IndexOutOfBoundsException {
-        try {
-            arr[i] = e;
-        } catch (ArrayIndexOutOfBoundsException ex) {
-        }
-        return e;
+    	E obj = null;
+    	if (size >= i) {
+    		obj = arr[i];
+    		arr[i] = e;
+    	}
+    	return obj;
 
     }
 }

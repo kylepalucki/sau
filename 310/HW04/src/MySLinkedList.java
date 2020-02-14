@@ -14,6 +14,10 @@ public class MySLinkedList<E> extends MyAbstractList<E>{
     public MySLinkedList(E[] eArr) {
         super.size = eArr.length;
         switch (size) {
+            case 0:
+                head = null;
+                tail = null;
+                break;
             case 1:
                 head = new SNode<>(eArr[0]);
                 break;
@@ -32,7 +36,6 @@ public class MySLinkedList<E> extends MyAbstractList<E>{
                 break;
         }
     }
-    
     @Override
     public void add(E e) {
         SNode<E> newLink = new SNode<>(e);
@@ -53,31 +56,7 @@ public class MySLinkedList<E> extends MyAbstractList<E>{
         }
         size++;
     }
-
-    @Override
-    public String toString() {
-        String s = "";
-        SNode<E> node = head;
-        s += "[";
-        switch (size) {
-            case 0:
-                s+="";
-                break;
-            case 1:
-                s+=head.e;
-                break;
-            default:
-                while(node.next!=null) {
-                    s += node.e.toString() + ", ";
-                    node = node.next;
-                }     break;
-        }
-        if (size>1) s += tail.e;
-        s+= "]";
-        return s;
-    }
     
-
     @Override
     public int size() {
         return size;
@@ -120,7 +99,6 @@ public class MySLinkedList<E> extends MyAbstractList<E>{
         }
         size++;
     }
-
     @Override
     public void clear() {
         head = null;
@@ -151,33 +129,74 @@ public class MySLinkedList<E> extends MyAbstractList<E>{
     @Override
     public E getLast() throws IllegalStateException {
         if (isEmpty()) throw new IllegalStateException();
-        return head.e;
+        return tail.e;
     }
 
     @Override
     public E removeFirst() throws IllegalStateException {
-        if (isEmpty()) throw new IllegalStateException();
-        if (size==1) clear();
         SNode<E> temp = head;
-        head = head.next;
-        size--;
+        if (isEmpty()) {
+            throw new IllegalStateException();
+        }
+        else if (size==1){
+            clear();
+        } else {
+            head = head.next;
+            size--;
+        }
         return temp.e;
-        
     }
 
     @Override
     public E removeLast() throws IllegalStateException {
-        if (isEmpty()) throw new IllegalStateException();
-        if (size==1) clear();
         SNode<E> temp = tail;
         SNode<E> node = head;
-        for (int i = 0; i < size-2; i++) {
-            node=node.next;
+        if (isEmpty()){
+            throw new IllegalStateException();
+        } else if (size==1) {
+            clear();
+        } else {
+            for (int i = 0; i < size-2; i++) {
+                node=node.next;
+            }
+             node.next = null;
+            tail = node;
+            size--;
         }
-        node.next = null;
-        tail = node;
-        size--;
         return temp.e;  
+    }
+    
+    
+    @Override
+    public E remove(int i) throws IndexOutOfBoundsException {
+        SNode<E> temp = head;
+        if (i < 0) {
+            throw new IndexOutOfBoundsException();
+        } else if (i > size-1) {
+            throw new IndexOutOfBoundsException();
+        }
+        if (isEmpty()) {
+            throw new IndexOutOfBoundsException();
+        } else if (size==1) {
+            if (i==0){
+                clear();
+                return temp.e;
+            }
+            else throw new IndexOutOfBoundsException();
+        } else {
+            if (i == 0) return removeFirst();
+            else if (i==size-1) return removeLast();
+            else {
+                SNode<E> rem = temp;
+                for (int j = 0; j < i-1; j++) {
+                    temp = temp.next;
+                }
+                rem = temp.next;
+                temp.next = temp.next.next;
+                size--;
+                return rem.e;
+            }
+        }
     }
 
     @Override
@@ -185,30 +204,74 @@ public class MySLinkedList<E> extends MyAbstractList<E>{
         if (isEmpty()) throw new IllegalStateException();
         SNode<E> temp = head;
         SNode<E> newLink = new SNode<>(e);
-        head = newLink;
+        if (size==1) {
+            head = newLink;
+            tail = head;
+            head.next = tail;
+        } else {
+            head = newLink;
+            head.next = temp.next;
+        }
         return temp.e;
     }
 
     @Override
     public E setLast(E e) throws IllegalStateException {
-       if (isEmpty()) throw new IllegalStateException();
        SNode<E> newLink = new SNode<>(e);
-       if (size==1) {
-           tail = newLink;
-           head.next = tail;
-       }
        SNode<E> temp = tail;
        SNode<E> node = head;
-       for (int i = 0; i < size-1; i++) {
-           node = node.next;
-       }
+       if (isEmpty()) throw new IllegalStateException();
        
+       else if (size==1) {
+           tail = newLink;
+           head.next = tail;
+           head = tail;
+       }else {
+            for (int i = 0; i < size-1; i++) {
+                node = node.next;
+            }
+            node.next = newLink;
+            tail = newLink;
+       }
        return temp.e;
     }
 
     @Override
     public void add(int i, E e) throws IndexOutOfBoundsException {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (i<0||(i>size-1&&size>0)) throw new IndexOutOfBoundsException();
+        SNode<E> newLink = new SNode<>(e);
+        if (isEmpty()) {
+            if(i==0) addFirst(e);
+            else throw new IndexOutOfBoundsException();
+            
+        } else if (size == 1) {
+            switch (i) {
+                case 0:
+                    head = newLink;
+                    head.next = tail;
+                    break;
+                case 1:
+                    tail = newLink;
+                    head.next = tail;
+                    break;
+                default:
+                    throw new IndexOutOfBoundsException();
+            }
+        } else {
+            if (i==0) {
+                addFirst(e);
+            }else if (i==size-1){
+                addLast(e);
+            }else {
+                SNode<E> node = head;
+                for (int j = 0; j < i-1; j++) {
+                    node = node.next;
+                }
+                newLink.next = node.next;
+                node.next = newLink;
+            }
+        }
+        size++;   
     }
 
     @Override
@@ -218,7 +281,37 @@ public class MySLinkedList<E> extends MyAbstractList<E>{
 
     @Override
     public int firstIndexOf(E e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        if (isEmpty()) {
+            return -1;
+        } else if (size ==1){ 
+            return head.e.equals(e) ? 0 : -1;
+        } else {
+            SNode<E> node = head;
+            for (int i = 0; i < size; i++) {
+                if (node.e.equals(e)) return i;
+                node = node.next;
+            }
+            return tail.e.equals(e) ? size-1 : -1;
+        }
+        //return -1;
+    }
+    
+    @Override
+    public int lastIndexOf(E e) {
+        if (isEmpty()) {
+            return -1;
+        } else if (size ==1){ 
+            return head.e.equals(e) ? 0 : -1;
+        } else {
+            SNode<E> node = head;
+            int c=-1;
+            for (int i = 0; i < size; i++) {
+                if (node.e.equals(e)) c=i;
+                node = node.next;
+            }
+            if (tail.e.equals(e)) c=size-1;
+            return c;
+        }
     }
 
     @Override
@@ -228,26 +321,6 @@ public class MySLinkedList<E> extends MyAbstractList<E>{
         for (int j = 0; j < i; j++){
             node = node.next;
         }
-        return node.e;
-    }
-
-    @Override
-    public int lastIndexOf(E e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    @Override
-    public E remove(int i) throws IndexOutOfBoundsException {
-        if (i<0||i>size-1) throw new IndexOutOfBoundsException();
-        SNode<E> enode = head;
-        SNode<E> node = head;
-        for (int k = 0; k < i; k++) {
-            if (node.next == null) throw new IndexOutOfBoundsException();
-            
-            node = node.next;
-        }
-        node.next = node.next.next;
-        size--;
         return node.e;
     }
 
@@ -266,6 +339,30 @@ public class MySLinkedList<E> extends MyAbstractList<E>{
         newLink = temp;
         return temp.e;
         
+    }
+
+     
+    @Override
+    public String toString() {
+        String s = "";
+        SNode<E> node = head;
+        s += "[";
+        switch (size) {
+            case 0:
+                s+="";
+                break;
+            case 1:
+                s+=head.e;
+                break;
+            default:
+                while(node.next!=null) {
+                    s += node.e.toString() + ", ";
+                    node = node.next;
+                }     break;
+        }
+        if (size>1) s += tail.e;
+        s+= "]";
+        return s;
     }
     
     

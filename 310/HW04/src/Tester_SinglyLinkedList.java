@@ -343,7 +343,9 @@ public class Tester_SinglyLinkedList {
         tests.add(new TestResultPart_II("Remove1 part 12", "a", result));
   
         list.addFirst("a"); // list == [a, b]
+        System.out.println(";"+list.toString());
         result = list.removeLast(); // list == [a]
+        System.out.println("z"+list.toString());
         tests.add(new TestResultPart_II("Remove1 part 13", "[a]", list.toString()));
         tests.add(new TestResultPart_II("Remove1 part 14", "1", "" + list.size()));
         tests.add(new TestResultPart_II("Remove1 part 15", "false", "" + list.isEmpty()));
@@ -351,6 +353,7 @@ public class Tester_SinglyLinkedList {
     
         list.addLast("b"); // list == [a, b]
         list.addLast("c"); // list == [a, b, c]
+        System.out.println("+"+list.toString());
         result = list.removeFirst(); // list == [b, c]
         tests.add(new TestResultPart_II("Remove1 part 17", "[b, c]", list.toString()));
         tests.add(new TestResultPart_II("Remove1 part 18", "2", "" + list.size()));
@@ -376,12 +379,13 @@ public class Tester_SinglyLinkedList {
         tests.add(new TestResultPart_II("Remove1 part 30", "1", "" + list.size()));
         tests.add(new TestResultPart_II("Remove1 part 31", "false", "" + list.isEmpty()));
         tests.add(new TestResultPart_II("Remove1 part 32", "b", result));
-
+        System.out.println(list.toString());
         result = list.remove(0); // list = []
         tests.add(new TestResultPart_II("Remove1 part 33", "[]", list.toString()));
         tests.add(new TestResultPart_II("Remove1 part 34", "0", "" + list.size()));
         tests.add(new TestResultPart_II("Remove1 part 35", "true", "" + list.isEmpty()));
         tests.add(new TestResultPart_II("Remove1 part 36", "c", result));
+        System.out.println(list.toString());
         
         list.add("a"); // list = [a]
         list.add("b"); // list = [a, b]
@@ -408,13 +412,19 @@ public class Tester_SinglyLinkedList {
         tests.add(new TestResultPart_II("Set1 part 1", "[b]", "" + list.toString()));
         tests.add(new TestResultPart_II("Set1 part 2", "a", result));
         tests.add(new TestResultPart_II("Set1 part 3", "1", "" + list.size()));
-        
+        System.out.println("[][" + list.toString());
+        System.out.println(list.size());
+        /*
         list.addFirst("w"); // list == [w, b]
         result = list.setFirst("a"); // list == [a, b]
         tests.add(new TestResultPart_II("Set1 part 4", "[a, b]", "" + list.toString()));
         tests.add(new TestResultPart_II("Set1 part 5", "w", result));
         tests.add(new TestResultPart_II("Set1 part 6", "2", "" + list.size()));
-
+        */
+        String[] arrr = {"a","b"};
+        
+        MySLinkedList<String> l = new MySLinkedList<>(arrr);
+        list = l;
         list.addLast("c"); // list == [a, b, c]
         result = list.setFirst("x"); // list == [x, b, c]
         tests.add(new TestResultPart_II("Set1 part 7", "[x, b, c]", "" + list.toString()));
@@ -423,6 +433,7 @@ public class Tester_SinglyLinkedList {
         
         list.removeFirst(); // list == [b, c]
         list.removeFirst(); // list == [c]
+        System.out.println(list.toString());
         list.setFirst("a"); // list == [a]
 
         result = list.setLast("b"); // list == [b]
@@ -473,7 +484,8 @@ public class Tester_SinglyLinkedList {
         tests.add(new TestResultPart_II("Set1 part 34", "[a]", "" + list.toString()));
         tests.add(new TestResultPart_II("Set1 part 35", "x", result));
         tests.add(new TestResultPart_II("Set1 part 36", "1", "" + list.size()));
-
+        
+      
     }
     
     

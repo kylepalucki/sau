@@ -28,5 +28,11 @@ public class MyTester {
                 list.add("b");
                 System.out.println(list);
                 System.out.println(list.size);
+                
+                list.clear();
+                list.addFirst("a");
+                System.out.println(list.size());
+                list.addFirst("b");
+                System.out.println(list);
 	}
 }

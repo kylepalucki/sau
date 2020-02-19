@@ -39,7 +39,7 @@ public class Tester_DoublyLinkedList {
         runLastIndexOfTests(tests, list);
         runRemoveTests(tests, list);
         runSetTests(tests, list);
-        //runExceptionTests(tests, list);
+        runExceptionTests(tests, list);
     
     }
     
@@ -104,16 +104,12 @@ public class Tester_DoublyLinkedList {
     
     static void runAddTests(ArrayList<TestResult_DList> tests, MyList<String> list){
         list.clear();
-        
-        
-        
         list.add("a");
         tests.add(new TestResult_DList("add1 part 1", "[a]", list.toString()));
-        System.out.println(list);
-        
+
         list.add("b");
         tests.add(new TestResult_DList("add1 part 2", "[a, b]", list.toString()));
-        
+
         list.add("c");
         tests.add(new TestResult_DList("add1 part 3", "[a, b, c]", list.toString()));
 
@@ -131,12 +127,10 @@ public class Tester_DoublyLinkedList {
 
         list.add(0, "x");
         tests.add(new TestResult_DList("add1 part 8", "[x, y, z, a, b, c, d, e]", list.toString()));
-        System.out.println("+"+list);
         
         list.add(7, "1");
         tests.add(new TestResult_DList("add1 part 9", "[x, y, z, a, b, c, d, 1, e]", list.toString()));
-        System.out.println("++"+list);
-        
+
         list.add(9, "2");
         tests.add(new TestResult_DList("add1 part 10", "[x, y, z, a, b, c, d, 1, e, 2]", list.toString()));
 
@@ -160,7 +154,7 @@ public class Tester_DoublyLinkedList {
         list.clear();
         list.add(0, "a");
         tests.add(new TestResult_DList("add4 part 1", "[a]", list.toString()));
-        
+
     }
 
     static void runClearTests(ArrayList<TestResult_DList> tests, MyList<String> list){
@@ -338,17 +332,18 @@ public class Tester_DoublyLinkedList {
         tests.add(new TestResult_DList("Remove1 part 6", "0", "" + list.size()));
         tests.add(new TestResult_DList("Remove1 part 7", "true", "" + list.isEmpty()));
         tests.add(new TestResult_DList("Remove1 part 8", "a", result));
-        System.out.println(list);
-        System.out.println(list.size());
+
         list.add("a"); // list == [a]
         list.add("b"); // list == [a, b]
+
         result = list.removeFirst(); // list == [b]
         tests.add(new TestResult_DList("Remove1 part 9", "[b]", list.toString()));
         tests.add(new TestResult_DList("Remove1 part 10", "1", "" + list.size()));
         tests.add(new TestResult_DList("Remove1 part 11", "false", "" + list.isEmpty()));
         tests.add(new TestResult_DList("Remove1 part 12", "a", result));
-  
+        
         list.addFirst("a"); // list == [a, b]
+        System.out.println("$"+list);
         result = list.removeLast(); // list == [a]
         tests.add(new TestResult_DList("Remove1 part 13", "[a]", list.toString()));
         tests.add(new TestResult_DList("Remove1 part 14", "1", "" + list.size()));
@@ -369,7 +364,7 @@ public class Tester_DoublyLinkedList {
         tests.add(new TestResult_DList("Remove1 part 22", "2", "" + list.size()));
         tests.add(new TestResult_DList("Remove1 part 23", "false", "" + list.isEmpty()));
         tests.add(new TestResult_DList("Remove1 part 24", "c", result));
-        
+        System.out.println(list);
         list.addLast("c"); // list == [a,b,c]
         result = list.remove(0); // list = [b, c]
         tests.add(new TestResult_DList("Remove1 part 25", "[b, c]", list.toString()));
@@ -377,7 +372,9 @@ public class Tester_DoublyLinkedList {
         tests.add(new TestResult_DList("Remove1 part 27", "false", "" + list.isEmpty()));
         tests.add(new TestResult_DList("Remove1 part 28", "a", result));        
         
+        System.out.println(list);
         result = list.remove(0); // list = [c]
+        System.out.println(list.size());
         tests.add(new TestResult_DList("Remove1 part 29", "[c]", list.toString()));
         tests.add(new TestResult_DList("Remove1 part 30", "1", "" + list.size()));
         tests.add(new TestResult_DList("Remove1 part 31", "false", "" + list.isEmpty()));
@@ -406,6 +403,7 @@ public class Tester_DoublyLinkedList {
     }    
     
     static void runSetTests(ArrayList<TestResult_DList> tests, MyList<String> list){
+    	System.out.println(list);
         list.clear();
         String result;
         
@@ -414,15 +412,18 @@ public class Tester_DoublyLinkedList {
         tests.add(new TestResult_DList("Set1 part 1", "[b]", "" + list.toString()));
         tests.add(new TestResult_DList("Set1 part 2", "a", result));
         tests.add(new TestResult_DList("Set1 part 3", "1", "" + list.size()));
+        System.out.println(list);
         
         
         list.addFirst("w"); // list == [w, b]
+        System.out.println(list);
         
         result = list.setFirst("a"); // list == [a, b]
+        System.out.println("--"+list);
         tests.add(new TestResult_DList("Set1 part 4", "[a, b]", "" + list.toString()));
         tests.add(new TestResult_DList("Set1 part 5", "w", result));
         tests.add(new TestResult_DList("Set1 part 6", "2", "" + list.size()));
-        /*
+        
         list.addLast("c"); // list == [a, b, c]
         result = list.setFirst("x"); // list == [x, b, c]
         tests.add(new TestResult_DList("Set1 part 7", "[x, b, c]", "" + list.toString()));
@@ -432,7 +433,7 @@ public class Tester_DoublyLinkedList {
         list.removeFirst(); // list == [b, c]
         list.removeFirst(); // list == [c]
         list.setFirst("a"); // list == [a]
-
+        
         result = list.setLast("b"); // list == [b]
         tests.add(new TestResult_DList("Set1 part 10", "[b]", "" + list.toString()));
         tests.add(new TestResult_DList("Set1 part 11", "a", result));
@@ -449,7 +450,7 @@ public class Tester_DoublyLinkedList {
         tests.add(new TestResult_DList("Set1 part 16", "[w, x, y]", "" + list.toString()));
         tests.add(new TestResult_DList("Set1 part 17", "c", result));
         tests.add(new TestResult_DList("Set1 part 18", "3", "" + list.size()));
-        
+
         result = list.set(0,"a"); // list == [a, x, y]
         tests.add(new TestResult_DList("Set1 part 19", "[a, x, y]", "" + list.toString()));
         tests.add(new TestResult_DList("Set1 part 20", "w", result));
@@ -481,7 +482,8 @@ public class Tester_DoublyLinkedList {
         tests.add(new TestResult_DList("Set1 part 34", "[a]", "" + list.toString()));
         tests.add(new TestResult_DList("Set1 part 35", "x", result));
         tests.add(new TestResult_DList("Set1 part 36", "1", "" + list.size()));
-        */
+        
+        
 
     }
     

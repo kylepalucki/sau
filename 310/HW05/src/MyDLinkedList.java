@@ -81,16 +81,19 @@ public class MyDLinkedList<E> extends MyAbstractList<E>{
                head.prev = newLink;
                head = newLink;
             } else if (i==size-1) {
-                /*
+                
                 DNode<E> tailPrev = tail.prev;
                 tailPrev.next = newLink;
                 newLink.prev = tailPrev;
                 newLink.next = tail;
                 tail.prev = newLink;
-                */
+                
+            	/*
                 tail.next = newLink;
                 newLink.prev = tail;
                 tail = newLink;
+                */
+                
             } else if (i==size) {
                 tail.next = newLink;
                 newLink.prev = tail;
@@ -99,6 +102,7 @@ public class MyDLinkedList<E> extends MyAbstractList<E>{
             }else {
                 DNode<E> node = head;
                 for (int j = 0; j < i-1;j++) {
+                	if (node.next==null) throw new IndexOutOfBoundsException();
                     node = node.next;
                 }
                 DNode<E> next = node.next;
@@ -202,14 +206,7 @@ public class MyDLinkedList<E> extends MyAbstractList<E>{
         DNode<E> newLink = new DNode<>(e);
         DNode<E> node = head;
         if (isEmpty()) {
-           if (i==0) {
-               head = newLink;
-               tail = newLink;
-               head.next = tail;
-               tail.prev = head;
-               size++;
-               return e;
-           } else throw new IndexOutOfBoundsException();
+           throw new IndexOutOfBoundsException();
         }else if (size==1) {
             if (i==0) {
                 DNode<E> temp = head;
@@ -224,14 +221,14 @@ public class MyDLinkedList<E> extends MyAbstractList<E>{
                 DNode<E> temp = head;
                 DNode<E> headNext = head.next;
                 head = newLink;
-                headNext.prev = newLink;
+                headNext.prev = head;
                 head.next = headNext;
                 return temp.e;
             } else if (i==size-1) {
                DNode<E> temp = tail;
                DNode<E> tailPrev = tail.prev;
                tail = newLink;
-               tailPrev.next = newLink;
+               tailPrev.next = tail;
                tail.prev = tailPrev;
                return temp.e;
             } else {
@@ -262,16 +259,34 @@ public class MyDLinkedList<E> extends MyAbstractList<E>{
             add(0, e);
             //System.out.println("empty");
             return;
-        } if (size==1) {
+        } else if (size==1) {
             add(1, e);
+            return;
         } else {
-            add(size-1, e);
+            add(size, e);
+            return;
         }
     }
 
     @Override
     public void addFirst(E e) {
-        add(0,e);
+    	DNode<E> newLink = new DNode<E>(e);
+    	if (isEmpty()) {
+    		head = newLink;
+    		tail = newLink;
+    		head.next = tail;
+    		tail.prev = head;
+    		
+    	} else if (size == 1) {
+    		head = newLink;
+    		tail.prev = head;
+    		head.next = tail;
+    	} else {
+    		DNode<E> headNext = head.next;
+    		head = newLink;
+    		head.next = headNext;
+    		headNext.prev = head;
+    	}size++;
     }
 
     @Override
@@ -280,10 +295,12 @@ public class MyDLinkedList<E> extends MyAbstractList<E>{
             add(0, e);
             //System.out.println("empty");
             return;
-        } if (size==1) {
+        } else if (size==1) {
             add(1, e);
+            return;
         } else {
-            add(size-1, e);
+            add(size, e);
+            return;
         }
     }
 
@@ -311,11 +328,13 @@ public class MyDLinkedList<E> extends MyAbstractList<E>{
 
     @Override
     public E getFirst() throws IllegalStateException {
+    	if (isEmpty()) throw new IllegalStateException();
         return get(0);
     }
 
     @Override
     public E getLast() throws IllegalStateException {
+    	if (isEmpty()) throw new IllegalStateException();
         return get(size-1);
     }
 
@@ -326,26 +345,28 @@ public class MyDLinkedList<E> extends MyAbstractList<E>{
 
     @Override
     public E removeFirst() throws IllegalStateException {
+    	if (isEmpty()) throw new IllegalStateException();
         return remove(0);
     }
 
     @Override
     public E removeLast() throws IllegalStateException {
+    	if (isEmpty()) throw new IllegalStateException();
         return remove(size-1);
     }
 
     @Override
     public E setFirst(E e) throws IllegalStateException {
+    	if (isEmpty()) throw new IllegalStateException();
         return set(0,e);
     }
 
     @Override
     public E setLast(E e) throws IllegalStateException {
         if (isEmpty()) {
-            //System.out.println("empty");
-            return set(0,e);
+            throw new IllegalStateException();
         } if (size==1) {
-            return set(1, e);
+            return set(0, e);
         } else {
             return set(size-1, e);
         }

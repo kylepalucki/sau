@@ -11,17 +11,18 @@ public class Car implements CarInterface {
 	
 	@Override
 	public void startWash(int time) {
-		// TODO Auto-generated method stub
+            startWashTime = time;
 		
 	}
 
 	@Override
 	public int waitTime() {
-		return startWashTime-arrivalTime;
+            return startWashTime-arrivalTime;
 	}
 	
+        @Override
 	public String toString() {
-		return "Car" + id;
+		return "Car " + id;
 	}
 
 }

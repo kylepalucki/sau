@@ -1,4 +1,8 @@
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+
 public class CarWashSimulator implements SimulatorInterface{
 	private double arrivalProb;
 	private double averageWaitTime;
@@ -14,7 +18,7 @@ public class CarWashSimulator implements SimulatorInterface{
 	private int washTimer;
 	private int zeroWaitCounter;
 	
-	private CarWashSimulator(int duration, int washTime, double arrivalProb) {
+	public CarWashSimulator(int duration, int washTime, double arrivalProb) {
 		this.duration = duration;
 		this.cycleTime = washTime;
 		this.arrivalProb = arrivalProb;
@@ -22,13 +26,49 @@ public class CarWashSimulator implements SimulatorInterface{
 
 	@Override
 	public void runSimulation(int seed) {
-		// TODO Auto-generated method stub
+            generator = new java.util.Random();
+            generator.setSeed(seed);
 		
 	}
 
 	@Override
 	public void runSimulation() {
-		// TODO Auto-generated method stub
+            Q = new LinkedQueue<>();
+            carCounter=0;
+            log="";
+            generator = new java.util.Random();
+            simulatedMinute = 1;
+            while (simulatedMinute <= duration) {
+                log+="Minute " + getSimulatedMinutes();
+                int r = generator.nextInt(99)+1;
+                if (r<arrivalProb*100) {
+                    carCounter++;
+                    Car inputCar = new Car(simulatedMinute, carCounter);
+                    Q.enqueue(inputCar);
+                    log+=", " + inputCar + " arrived";
+                    if (carBeingWashed==null) {
+                        cycleTime = 0;
+                        carBeingWashed = inputCar;
+                        log+=", " + inputCar + " being washed";
+                        carBeingWashed.startWash(simulatedMinute);       
+                        zeroWaitCounter++;
+                    }
+                }
+                if (carBeingWashed!=null) {
+                    if (cycleTime>=washTimer) {
+                        Car front;
+                        try {
+                            front = Q.front();
+                            Q.dequeue();
+                            System.out.println(", Finished washing "+ front);
+                        } catch (EmptyQueueException ex) {
+                        }
+                    }
+                }
+                log+="\n";
+                simulatedMinute++;
+            }
+            
 		
 	}
 
@@ -39,8 +79,7 @@ public class CarWashSimulator implements SimulatorInterface{
 
 	@Override
 	public int getNumberOfCarsWashed() {
-		// TODO Auto-generated method stub
-		return 0;
+            return washedCars.size();
 	}
 
 	@Override

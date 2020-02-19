@@ -1,4 +1,7 @@
+/*
 
+@author KYLE PALUCKI
+*/
 public class MyDLinkedList<E> extends MyAbstractList<E>{
     
     protected DNode<E> head;
@@ -40,7 +43,6 @@ public class MyDLinkedList<E> extends MyAbstractList<E>{
                 h.next = new DNode<>(eArr[i]);
                 h=h.next;
             }
-            //t.prev = h;
             for (int i = size-2; i > 0; i--) {
                 t.prev = new DNode<>(eArr[i]);
                 t=t.prev;
@@ -87,12 +89,6 @@ public class MyDLinkedList<E> extends MyAbstractList<E>{
                 newLink.prev = tailPrev;
                 newLink.next = tail;
                 tail.prev = newLink;
-                
-            	/*
-                tail.next = newLink;
-                newLink.prev = tail;
-                tail = newLink;
-                */
                 
             } else if (i==size) {
                 tail.next = newLink;
@@ -169,7 +165,25 @@ public class MyDLinkedList<E> extends MyAbstractList<E>{
                 clear();
                 return node.e;
             } else throw new IndexOutOfBoundsException();
-        } else {
+        } else if (size==2) {
+            switch (i) {
+                case 0:
+                    DNode<E> h = head;
+                    head = tail;
+                    size--;
+                    return h.e;
+                case 1:
+                    DNode<E> t = tail;
+                    tail = head;
+                    size--;
+                    return t.e;
+                default:
+                    throw new IndexOutOfBoundsException();
+                
+            }
+        }
+        
+        else {
           if (i == 0) {
               DNode<E> headNext = head.next;
               head = headNext;
@@ -255,53 +269,61 @@ public class MyDLinkedList<E> extends MyAbstractList<E>{
 
     @Override
     public void add(E e) {
+        DNode<E> newLink = new DNode<>(e);
         if (isEmpty()) {
-            add(0, e);
-            //System.out.println("empty");
-            return;
+            head = newLink;
+            tail = newLink;
+            head.next = tail;
+            tail.prev = head;
         } else if (size==1) {
-            add(1, e);
-            return;
+            tail = newLink;
+            tail.prev = head;
+            head.next = tail;
         } else {
-            add(size, e);
-            return;
+            tail.next = newLink;
+            newLink.prev = tail;
+            tail = newLink;
         }
+        size++;
     }
 
     @Override
     public void addFirst(E e) {
-    	DNode<E> newLink = new DNode<E>(e);
-    	if (isEmpty()) {
-    		head = newLink;
-    		tail = newLink;
-    		head.next = tail;
-    		tail.prev = head;
-    		
-    	} else if (size == 1) {
-    		head = newLink;
-    		tail.prev = head;
-    		head.next = tail;
-    	} else {
-    		DNode<E> headNext = head.next;
-    		head = newLink;
-    		head.next = headNext;
-    		headNext.prev = head;
-    	}size++;
+    	DNode<E> newLink = new DNode<>(e);
+    	if (isEmpty()){
+            head = newLink;
+            tail = head;    
+            
+        }else if (size == 1) {
+            newLink.next = tail;
+            head = newLink;
+            tail.prev = head;
+        } else {
+            head.prev = newLink;
+            newLink.next = head;
+            head = newLink;
+        }
+        size++;
     }
 
     @Override
     public void addLast(E e) {
+        DNode<E> newLink = new DNode<>(e);
         if (isEmpty()) {
-            add(0, e);
-            //System.out.println("empty");
-            return;
+            head = newLink;
+            tail = newLink;
+            head.next = tail;
+            tail.prev = head;
         } else if (size==1) {
-            add(1, e);
-            return;
+            tail = newLink;
+            tail.prev = head;
+            head.next = tail;
         } else {
-            add(size, e);
-            return;
+            tail.next = newLink;
+            newLink.prev = tail;
+            tail = newLink;
         }
+        size++;
     }
 
     @Override
@@ -358,41 +380,91 @@ public class MyDLinkedList<E> extends MyAbstractList<E>{
     @Override
     public E setFirst(E e) throws IllegalStateException {
     	if (isEmpty()) throw new IllegalStateException();
-        return set(0,e);
+        DNode<E> newLink = new DNode<>(e);
+        switch (size) {
+            case 1:
+            {
+                DNode<E> node = head;
+                head = newLink;
+                tail = newLink;
+                return node.e;
+            }
+            case 2:
+            {
+                DNode<E> node = head;
+                head = newLink;
+                head.next = tail;
+                tail.prev = head;
+                return node.e;
+            }
+            default:
+            {
+                DNode<E> node = head;
+                DNode<E> headNext = head.next;
+                headNext.prev = newLink;
+                head = newLink;
+                head.next = headNext;
+                return node.e;
+            }
+        }
     }
 
     @Override
     public E setLast(E e) throws IllegalStateException {
         if (isEmpty()) {
             throw new IllegalStateException();
-        } if (size==1) {
-            return set(0, e);
-        } else {
-            return set(size-1, e);
+        } 
+        DNode<E> newLink = new DNode<>(e);
+        switch (size) {
+            case 1:
+            {
+                DNode<E> node = head;
+                head = newLink;
+                tail = newLink;
+                return node.e;
+            }
+            case 2:
+            {
+                DNode<E> node = tail;
+                tail = newLink;
+                head.next = tail;
+                tail.prev = head;
+                return node.e;
+            }
+            default:
+            {
+                DNode<E> tailPrev = tail.prev;
+                DNode<E> node = tail;
+                tailPrev.next = newLink;
+                tail = newLink;
+                tail.prev = tailPrev;
+                return node.e;
+                
+            }
         }
     }
 
     @Override
     public String toString() {
-            String s = "";
-    DNode<E> node = head;
-    s += "[";
-    switch (size) {
-        case 0:
-            s+="";
-            break;
-        case 1:
-            s+=head.e;
-            break;
-        default:
-            while(node.next!=null) {
-                s += node.e.toString() + ", ";
-                node = node.next;
-            }     break;
-    }
-    if (size>1) s += tail.e;
-    s+= "]";
-    return s;
+        String s = "";
+        DNode<E> node = head;
+        s += "[";
+        switch (size) {
+            case 0:
+                s+="";
+                break;
+            case 1:
+                s+=node.e;
+                break;
+            default:
+                while(node.next!=null) {
+                    s += node.e.toString() + ", ";
+                    node = node.next;
+                }     break;
+        }
+        if (size>1) s += tail.e;
+        s+= "]";
+        return s;
     }
 
 

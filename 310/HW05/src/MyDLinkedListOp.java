@@ -6,7 +6,7 @@
 
 /**
  *
- * @author Tbolt
+ * @author palucki
  */
 public class MyDLinkedListOp<E> extends MyDLinkedList<E> {
     public MyDLinkedListOp() {
@@ -22,6 +22,7 @@ public class MyDLinkedListOp<E> extends MyDLinkedList<E> {
         super.clear();
     }
     
+    @Override
     public String toString() {
         return super.toString();
     }

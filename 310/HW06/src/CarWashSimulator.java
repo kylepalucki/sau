@@ -39,7 +39,7 @@ public class CarWashSimulator implements SimulatorInterface {
         }
         for (simulatedMinute = 0; simulatedMinute < duration; simulatedMinute++) {
             log += "Minute " + (simulatedMinute + 1);
-            int r = generator.nextInt(99) + 1;
+            int r = generator.nextInt(99);
             if (r < arrivalProb * 100) {
                 carCounter++;
                 log += ", Car " + carCounter + " arrived";
@@ -121,11 +121,10 @@ public class CarWashSimulator implements SimulatorInterface {
         }
         for (simulatedMinute = 0; simulatedMinute < duration; simulatedMinute++) {
             log += "Minute " + (simulatedMinute + 1);
-            int r = generator.nextInt(99) + 1;
+            int r = generator.nextInt(99);
             if (r < arrivalProb * 100) {
                 carCounter++;
                 log += ", Car " + carCounter + " arrived";
-
                 Q.enqueue(new Car(simulatedMinute, carCounter));
             }
             if (Q.size() == 1 && !running) {

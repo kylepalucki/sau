@@ -38,7 +38,6 @@ public class CarWashSimulator implements SimulatorInterface {
             throw new IllegalArgumentException();
         }
         for (simulatedMinute = 0; simulatedMinute < duration; simulatedMinute++) {
-            System.out.println(Q);
             log += "Minute " + (simulatedMinute + 1);
             int r = generator.nextInt(99) + 1;
             if (r < arrivalProb * 100) {
@@ -81,7 +80,7 @@ public class CarWashSimulator implements SimulatorInterface {
             }
             log += "\n";
         }
-        while(running) {           
+        while (running) {
             log += "Minute " + (simulatedMinute + 1);
             try {
                 carBeingWashed = Q.front();
@@ -104,18 +103,8 @@ public class CarWashSimulator implements SimulatorInterface {
             log += "\n";
             simulatedMinute++;
         }
-        log+=printSummary();
+        log += printSummary();
     }
-    
-    
-    
-    
-  ////////////////////////  
-    
-    
-    
-    
-    
 
     @Override
     public void runSimulation() {
@@ -131,7 +120,6 @@ public class CarWashSimulator implements SimulatorInterface {
             throw new IllegalArgumentException();
         }
         for (simulatedMinute = 0; simulatedMinute < duration; simulatedMinute++) {
-            System.out.println(Q);
             log += "Minute " + (simulatedMinute + 1);
             int r = generator.nextInt(99) + 1;
             if (r < arrivalProb * 100) {
@@ -174,7 +162,7 @@ public class CarWashSimulator implements SimulatorInterface {
             }
             log += "\n";
         }
-        while(running) {           
+        while (running) {
             log += "Minute " + (simulatedMinute + 1);
             try {
                 carBeingWashed = Q.front();
@@ -197,23 +185,24 @@ public class CarWashSimulator implements SimulatorInterface {
             log += "\n";
             simulatedMinute++;
         }
-        log+=printSummary();
+        log += printSummary();
 
     }
-    
+
     private String printSummary() {
         String s = "";
-        s+="===========================================================\n";
-        s+="                    SUMMARY\n";
-        s+="===========================================================\n";
-        
-        s+="Simulated time: " + getSimulatedMinutes() + " minutes\n";
-        s+="Cars washed: " + getNumberOfCarsWashed()+"\n";
-        s+="Max wait time: " + getMaxWaitTime() + " minutes \n";
-        s+="Average wait time: " + getAverageWaitTime() + " minutes \n";
-        double pct =getNumberOfCarsWashed()>0?(double) getCarsWithZeroWait()/getNumberOfCarsWashed()*100:0;
+        s += "===========================================================\n";
+        s += "                    SUMMARY\n";
+        s += "===========================================================\n";
+
+        s += "Simulated time: " + getSimulatedMinutes() + " minutes\n";
+        s += "Cars washed: " + getNumberOfCarsWashed() + "\n";
+        s += "Max wait time: " + getMaxWaitTime() + " minutes \n";
+        String w = String.format("%.1f", getAverageWaitTime());
+        s += "Average wait time: " + w + " minutes \n";
+        double pct = getNumberOfCarsWashed() > 0 ? (double) getCarsWithZeroWait() / getNumberOfCarsWashed() * 100 : 0;
         String p = String.format("%.1f", pct);
-        s+="Cars with zero wait: " + getCarsWithZeroWait() + " ("+p+"%)\n";
+        s += "Cars with zero wait: " + getCarsWithZeroWait() + " (" + p + "%)\n";
         return s;
     }
 
@@ -232,7 +221,9 @@ public class CarWashSimulator implements SimulatorInterface {
         int max = 0;
 
         for (Car c : washedCars) {
-            if (c.waitTime()>max) max = c.waitTime();
+            if (c.waitTime() > max) {
+                max = c.waitTime();
+            }
         }
         return max;
     }
@@ -240,11 +231,14 @@ public class CarWashSimulator implements SimulatorInterface {
     @Override
     public double getAverageWaitTime() {
         double total = 0;
-        if (getNumberOfCarsWashed()==0) return 0;
+        if (getNumberOfCarsWashed() == 0) {
+            return 0;
+        }
         for (Car c : washedCars) {
             total += c.waitTime();
         }
-        return (double)total/washedCars.size() ;
+        averageWaitTime = (double) total / washedCars.size();
+        return averageWaitTime;
     }
 
     @Override

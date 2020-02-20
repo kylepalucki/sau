@@ -1,11 +1,11 @@
 
-public class EmptyQueueException extends Exception{
+public class EmptyQueueException extends Exception {
 
-	public EmptyQueueException() {
-		super();
-	}
-	
-	public EmptyQueueException(Throwable msg) {
-		super(msg);
-	}
+    public EmptyQueueException() {
+        super();
+    }
+
+    public EmptyQueueException(Throwable msg) {
+        super(msg);
+    }
 }

@@ -1,4 +1,7 @@
-
+/**
+ * 
+ * @author palucki
+ */
 public class LinkedQueue<E> implements QueueInterface<E> {
 
     SNode<E> front;

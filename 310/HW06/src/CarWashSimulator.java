@@ -1,4 +1,6 @@
-
+/**
+ * @author palucki
+ */
 import java.util.*;
 
 public class CarWashSimulator implements SimulatorInterface {
@@ -39,8 +41,7 @@ public class CarWashSimulator implements SimulatorInterface {
         }
         for (simulatedMinute = 0; simulatedMinute < duration; simulatedMinute++) {
             log += "Minute " + (simulatedMinute + 1);
-            int r = generator.nextInt(99);
-            if (r < arrivalProb * 100) {
+            if (carArrived()) {
                 carCounter++;
                 log += ", Car " + carCounter + " arrived";
 
@@ -103,7 +104,7 @@ public class CarWashSimulator implements SimulatorInterface {
             log += "\n";
             simulatedMinute++;
         }
-        log += printSummary();
+        summarizeResults();
     }
 
     @Override
@@ -122,7 +123,7 @@ public class CarWashSimulator implements SimulatorInterface {
         for (simulatedMinute = 0; simulatedMinute < duration; simulatedMinute++) {
             log += "Minute " + (simulatedMinute + 1);
             int r = generator.nextInt(99);
-            if (r < arrivalProb * 100) {
+            if (carArrived()) {
                 carCounter++;
                 log += ", Car " + carCounter + " arrived";
                 Q.enqueue(new Car(simulatedMinute, carCounter));
@@ -184,25 +185,28 @@ public class CarWashSimulator implements SimulatorInterface {
             log += "\n";
             simulatedMinute++;
         }
-        log += printSummary();
+        summarizeResults();
 
     }
+    
 
-    private String printSummary() {
-        String s = "";
-        s += "===========================================================\n";
-        s += "                    SUMMARY\n";
-        s += "===========================================================\n";
-
-        s += "Simulated time: " + getSimulatedMinutes() + " minutes\n";
-        s += "Cars washed: " + getNumberOfCarsWashed() + "\n";
-        s += "Max wait time: " + getMaxWaitTime() + " minutes \n";
+    private void summarizeResults() {
+        log+="\n";
+        log += "===========================================================\n";
+        log += "                    SUMMARY\n";
+        log += "===========================================================\n";
+        log += "Simulated time: " + getSimulatedMinutes() + " minutes\n";
+        log += "Cars washed: " + getNumberOfCarsWashed() + "\n";
+        log += "Max wait time: " + getMaxWaitTime() + " minutes \n";
         String w = String.format("%.1f", getAverageWaitTime());
-        s += "Average wait time: " + w + " minutes \n";
+        log += "Average wait time: " + w + " minutes \n";
         double pct = getNumberOfCarsWashed() > 0 ? (double) getCarsWithZeroWait() / getNumberOfCarsWashed() * 100 : 0;
         String p = String.format("%.1f", pct);
-        s += "Cars with zero wait: " + getCarsWithZeroWait() + " (" + p + "%)\n";
-        return s;
+        log += "Cars with zero wait: " + getCarsWithZeroWait() + " (" + p + "%)\n";
+    }
+    
+    private boolean carArrived() {
+        return (generator.nextDouble()<arrivalProb);
     }
 
     @Override
@@ -230,7 +234,7 @@ public class CarWashSimulator implements SimulatorInterface {
     @Override
     public double getAverageWaitTime() {
         double total = 0;
-        if (getNumberOfCarsWashed() == 0) {
+        if (getNumberOfCarsWashed()==0) {
             return 0;
         }
         for (Car c : washedCars) {
@@ -242,7 +246,6 @@ public class CarWashSimulator implements SimulatorInterface {
 
     @Override
     public int getCarsWithZeroWait() {
-        // TODO Auto-generated method stub
         return zeroWaitCounter;
     }
 

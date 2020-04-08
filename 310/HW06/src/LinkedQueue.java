@@ -1,11 +1,13 @@
 /**
  * 
  * @author palucki
+ * @param <E>
  */
 public class LinkedQueue<E> implements QueueInterface<E> {
 
     SNode<E> front;
     SNode<E> rear;
+    
     int size;
 
     public LinkedQueue() {

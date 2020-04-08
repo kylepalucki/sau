@@ -1,3 +1,4 @@
+
 /**
  * @author palucki
  */
@@ -44,7 +45,6 @@ public class CarWashSimulator implements SimulatorInterface {
             if (carArrived()) {
                 carCounter++;
                 log += ", Car " + carCounter + " arrived";
-
                 Q.enqueue(new Car(simulatedMinute, carCounter));
             }
             if (Q.size() == 1 && !running) {
@@ -188,10 +188,9 @@ public class CarWashSimulator implements SimulatorInterface {
         summarizeResults();
 
     }
-    
 
     private void summarizeResults() {
-        log+="\n";
+        log += "\n";
         log += "===========================================================\n";
         log += "                    SUMMARY\n";
         log += "===========================================================\n";
@@ -204,9 +203,9 @@ public class CarWashSimulator implements SimulatorInterface {
         String p = String.format("%.1f", pct);
         log += "Cars with zero wait: " + getCarsWithZeroWait() + " (" + p + "%)\n";
     }
-    
+
     private boolean carArrived() {
-        return (generator.nextDouble()<arrivalProb);
+        return (generator.nextDouble() < arrivalProb);
     }
 
     @Override
@@ -234,7 +233,7 @@ public class CarWashSimulator implements SimulatorInterface {
     @Override
     public double getAverageWaitTime() {
         double total = 0;
-        if (getNumberOfCarsWashed()==0) {
+        if (getNumberOfCarsWashed() == 0) {
             return 0;
         }
         for (Car c : washedCars) {

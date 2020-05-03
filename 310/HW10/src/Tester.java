@@ -1,23 +1,49 @@
 
-import java.util.Arrays;
 
 
 public class Tester {
     public static void main(String[] args) {
         StringGraph sg = new StringGraph();
-        sg.addVertex("a");
-        sg.addVertex("b");
-        sg.addVertex("c");
-        sg.addVertex("d");
+        sg.addVertex("A");
+        sg.addVertex("B");
+        sg.addVertex("C");
+        System.out.println(sg);
+        System.out.println("=================================");
+        System.out.println();
         
-        String[] l = sg.getVertexLabels();
-                
-        System.out.println(sg.numberOfVertices());
-        System.out.println(l[1]);
-        System.out.println(sg.vertexExists("b"));
-        sg.deleteVertex("b");
-        System.out.println(sg.numberOfVertices());
-        System.out.println(sg.vertexExists("b"));
-        System.out.println(Arrays.toString(l));
+        String[] vertices = {"D", "E", "F"};
+        sg.addVertices(vertices);
+        System.out.println(sg);
+        System.out.println("=================================");
+        
+        sg.deleteVertex("B");
+        sg.addVertices(vertices);
+        System.out.println(sg);
+        System.out.println("=================================");
+        
+        sg.addEdge("A","C");
+        sg.addEdge("A","D");
+        sg.addEdge("C","E");
+        System.out.println(sg);
+        System.out.println("=================================");
+        
+        String[][] edges = {
+            {"F","A"}, //0,0 0,1
+            {"F","D"}, //1,0 1,1
+            {"F","E"}, //2,0 2,1
+        };
+        //sg.addEdges(edges);
+        System.out.println(sg);
+        System.out.println("=================================");
+        
+        sg.deleteVertex("A");
+        System.out.println(sg);
+        System.out.println("=================================");
+        
+        sg.deleteEdge("E","C");
+        System.out.println(sg);
+        System.out.println("=================================");
+        
+        
     }
 }

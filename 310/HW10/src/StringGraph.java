@@ -1,5 +1,4 @@
 
-import java.util.Arrays;
 
 public class StringGraph implements Graph {
 
@@ -19,13 +18,30 @@ public class StringGraph implements Graph {
 
     public StringGraph(int initCapacity) {
         this.capacity = initCapacity;
+        this.numVertices = 0;
+        this.numEdges = 0;
+        labels = new String[capacity];
+        edgeMatrix = new boolean[capacity][capacity];
     }
 
     public StringGraph(String[] initVertices) {
+        this.capacity = initVertices.length;
+        this.numVertices = initVertices.length;
+        this.numEdges = 0;
+        labels = new String[capacity];
+        edgeMatrix = new boolean[capacity][capacity];
+        addVertices(initVertices);
 
     }
 
     public StringGraph(String[] initVertices, String[][] initEdges) {
+        this.capacity = initVertices.length;
+        this.numVertices = initVertices.length;
+        this.numEdges = initEdges.length;
+        labels = new String[capacity];
+        edgeMatrix = new boolean[capacity][capacity];
+        addVertices(initVertices);
+        addEdges(initEdges);
 
     }
 
@@ -46,45 +62,20 @@ public class StringGraph implements Graph {
 
     @Override
     public void addVertex(String vertex) {
-        this.numVertices++;
-        String[] tempLabels = this.labels;
-        boolean[][] tempMatrix = this.edgeMatrix;
-        resize(++this.capacity);
-        int c=0;
-        for (String label : tempLabels) {
-            labels[c++] = label;
-        }
-        labels[this.labels.length-1] = vertex;
-        
-
-    }
-
-    private String[] create(String newVertex) {
-        capacity++;
-        String[] s = new String[capacity];
-        int c = 0;
-        for (String l : labels) {
-            s[c++] = l;
-        }
-        s[s.length - 1] = newVertex;
-        return s;
-    }
-
-    private String[] destroy(String vertex) {
-        capacity--;
-        if (vertexExists(vertex)) {
-            String[] s = new String[capacity];
+        if (!vertexExists(vertex)) {
+            this.numVertices++;
+            String[] tempLabels = this.labels;
+            boolean[][] tempMatrix = this.edgeMatrix;
+            resize(++this.capacity);
             int c = 0;
-            for (int i = 0; i < labels.length; i++) {
-                if (labels[i].equals(vertex)) {
-                    labels[i] = null;
-                } else {
-                    s[c++] = labels[i];
-                }
+            for (String label : tempLabels) {
+                labels[c++] = label;
             }
-            return s;
+            labels[this.labels.length - 1] = vertex;
+            for (int i = 0; i < tempMatrix.length; i++) {
+                System.arraycopy(tempMatrix[i], 0, edgeMatrix[i], 0, tempMatrix[i].length);
+            }
         }
-        return null;
     }
 
     @Override
@@ -96,7 +87,30 @@ public class StringGraph implements Graph {
 
     @Override
     public String toString() {
-        return Arrays.toString(labels);
+        String f = "";
+        f += String.format("%4s", " ");
+        for (int i = 0; i < capacity; i++) {
+            f += String.format("%3s", labels[i]);
+        }
+        f += "\n";
+        f += String.format("%4s", " ");
+        for (int i = 0; i < capacity; i++) {
+            f += String.format("%3s", i);
+        }
+        f += "\n";
+        for (int i = 0; i < capacity; i++) {
+            f += String.format("%2s", labels[i]);
+            f += String.format("%2s", i);
+            for (int j = 0; j < capacity; j++) {
+                if (edgeMatrix[i][j]) {
+                    f += String.format("%3s", "T");
+                } else {
+                    f += String.format("%3s", "-");
+                }
+            }
+            f += "\n";
+        }
+        return f;
     }
 
     @Override
@@ -130,7 +144,30 @@ public class StringGraph implements Graph {
     public void deleteVertex(String vertex) {
         if (vertexExists(vertex)) {
             this.numVertices--;
-            labels = destroy(vertex);
+            String[] tempLabels = this.labels;
+            
+            for (String label : labels) {
+                if (edgeExists(vertex, label)) {
+                    deleteEdge(vertex, label);
+                }
+            }
+            boolean[][] tempMatrix = this.edgeMatrix;
+            resize(--this.capacity);
+            int c = 0;
+            for (int i = 0; i < tempLabels.length-1; i++) {
+                if (tempLabels[i].equals(vertex)){
+                    labels[c++] = tempLabels[tempLabels.length-1];
+                }
+                if (!tempLabels[i].equals(vertex)) {
+                    labels[c++] = tempLabels[i];
+                }
+            }
+            for (int i = 0; i < tempMatrix.length-1; i++) {
+                for (int j = 0; j < tempMatrix[i].length-1; j++) {
+                    edgeMatrix[i][j] = tempMatrix[i][j];
+                }
+            }
+
         }
     }
 
@@ -154,7 +191,11 @@ public class StringGraph implements Graph {
 
     @Override
     public void addEdges(String[][] edges) {
-
+        for (int i = 0; i < edges.length; i++) {
+            for (int j = 0; j < edges[i].length; j++) {
+                addEdge(edges[i][j], edges[j][i]);
+            }
+        }
     }
 
     @Override
@@ -192,7 +233,7 @@ public class StringGraph implements Graph {
         boolean[][] e = new boolean[newCapacity][newCapacity];
         this.labels = s;
         this.edgeMatrix = e;
-        
+
     }
 
     @Override

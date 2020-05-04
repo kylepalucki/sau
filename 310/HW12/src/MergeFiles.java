@@ -6,6 +6,7 @@ import java.util.*;
 public class MergeFiles {
     public static void main(String[] args) throws FileNotFoundException, IOException {
         ArrayList<File> files = new ArrayList<>();
+        ArrayList<Integer> lines = new ArrayList<>();
         File merged = new File("");
         try {
             File fileNames  = new File("fileNames.txt");
@@ -19,6 +20,7 @@ public class MergeFiles {
                 } else {
                     File file = new File(next);
                     files.add(file); 
+                    lines.add(0);
                     c++;
                 }
             }        
@@ -26,24 +28,18 @@ public class MergeFiles {
         } catch (FileNotFoundException ex) {
             System.out.println(ex);
         }
-        
         mergeFiles(files, merged);
-        
-        
     }
     
     public static void mergeFiles(ArrayList<File> files, File merged) {
         FileWriter fw = null;
         BufferedWriter bout = null;
-        
         try {
             fw = new FileWriter(merged, true);
             bout = new BufferedWriter(fw);
             
         } catch (IOException ex) {
-        
         }
-        
         for (int i = 0; i < files.size(); i++) {
             File f = files.get(i);
             System.out.println("merging: " + f.toString());
@@ -52,37 +48,17 @@ public class MergeFiles {
                 fileInput = new FileInputStream(f);
                 BufferedReader bin = new BufferedReader(new InputStreamReader(fileInput));
                 String a;
-                int aInt;
-                Integer last = null;
                 while ((a=bin.readLine()) != null) {
-                    if (bin.readLine() != null) {
-                        aInt = Integer.parseInt(bin.readLine());
-                        if (last == null) {
-                            last = aInt;
-                            bout.write(a);
-                            bout.newLine();
-                        } else {
-                            if (last > aInt) {
-                                deleteLast(merged);
-                                bout.write(a);
-                                bout.newLine();
-                                bout.write(last);
-                                bout.newLine();
-                            }
-                        }
-                    }
-                    
-                    //aInt = Integer.parseInt(bin.readLine());
+                     bout.write(a);
+                     bout.newLine();
                 }
                 bin.close();
             } catch (IOException ex) {
-                
             }
         }
         try {
             bout.close();
-        } catch (IOException ex) {
-            
+        } catch (IOException ex) {  
         }
     }
     

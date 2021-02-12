@@ -24,7 +24,6 @@ public class MergeFiles {
                     c++;
                 }
             }        
-            System.out.println(files);
         } catch (FileNotFoundException ex) {
             System.out.println(ex);
         }
@@ -32,6 +31,7 @@ public class MergeFiles {
     }
     
     public static void mergeFiles(ArrayList<File> files, File merged) {
+        System.out.println("Merging the following files: ");
         FileWriter fw = null;
         BufferedWriter bout = null;
         try {
@@ -42,7 +42,7 @@ public class MergeFiles {
         }
         for (int i = 0; i < files.size(); i++) {
             File f = files.get(i);
-            System.out.println("merging: " + f.toString());
+            System.out.println(f.toString());
             FileInputStream fileInput = null;
             try {
                 fileInput = new FileInputStream(f);
@@ -60,21 +60,7 @@ public class MergeFiles {
             bout.close();
         } catch (IOException ex) {  
         }
-    }
-    
-    public static void deleteLast(File file) throws FileNotFoundException {
-        Scanner s = new Scanner(file);
-        while (s.hasNextLine()) {
-            s.nextLine();
-            if (!s.hasNextLine()) {
-                try{
-                    FileWriter writer = new FileWriter(file.toString());
-                    BufferedWriter bwriter = new BufferedWriter(writer);
-                    bwriter.write("");
-                    bwriter.close();
-                }catch (IOException ex){
-                }
-            }
-        }
+        System.out.println();
+        System.out.println("Results stored in " + merged.toString());
     }
 }

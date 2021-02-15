@@ -12,7 +12,7 @@ public class ListOfStrings implements ListOfStringInterface{
     }
 
     public ListOfStrings(int initCap) {
-        arr = new String[DEFAULT_CAPACITY];
+        arr = new String[initCap];
         size = 0;
     }
     /**
@@ -23,6 +23,7 @@ public class ListOfStrings implements ListOfStringInterface{
     @Override
     public void add(String str) {
         this.addLast(str);
+        //size++;
     }
 
     /**
@@ -41,29 +42,41 @@ public class ListOfStrings implements ListOfStringInterface{
             arr[i] = str;
             size++;
         }
-        else if (arr[i] != null) {
-            for (int j = i; j < getCapacity()-1; j++) {
-                String temp = arr[j];
-                if (j==i) {
-                    arr[j] = str;
-                } else {
-                    arr[j+1] = temp;
-                    temp = arr[j];
-                }
-            }
+        if (arr[i] == null) {
+            arr[i] = str;
+            size++;
         }
         else {
-            if (size==getCapacity()) {
+            if (size()==getCapacity()) {
                 ensureCapacity(getCapacity()+DEFAULT_CAPACITY);
-                for (int j = i; j < getCapacity()-1; j++) {
-                    if (j==i) {
-                      arr[j] = str;
-                    } else {
-                        arr[j+1] = arr[j];
-                    }
+            }
+            String[] s1 = new String[i];
+            String[] s2 = new String[size];
+            if (i==0) {
+                for(int j = getCapacity()-1; j > 0; j--){
+                    arr[j] = arr[j-1];
                 }
-            }else {
+                arr[0] = str;
+                size++;
+                return;
+            }
+            else {
+                int c = 0;
+                for (int j = 0; j < s1.length; j++) {
+                    s1[j] = arr[j];
+                }
+                for (int j = i; j < s2.length; j++) {
+                    s2[c++] = arr[j];
+                }
+
+                for (int j = 0; j < i; j++) {
+                    arr[j] = s1[j];
+                }
                 arr[i] = str;
+                c = 0;
+                for (int j = i + 1; j < s2.length; j++) {
+                    arr[j] = s2[c++];
+                }
                 size++;
             }
         }
@@ -96,11 +109,16 @@ public class ListOfStrings implements ListOfStringInterface{
         for (int i = 0; i < getCapacity(); i++) {
             if (arr[i]==null) {
                 arr[i] = str;
+                size++;
                 return;
             }
         }
         ensureCapacity(getCapacity()+DEFAULT_CAPACITY);
-        arr[getCapacity()-DEFAULT_CAPACITY-1] = str;
+        arr[getCapacity()-DEFAULT_CAPACITY] = str;
+        size++;
+        
+        
+
     }
 
     /**
@@ -121,7 +139,8 @@ public class ListOfStrings implements ListOfStringInterface{
             String[] temp = new String[size];
             int c=0;
             for (String s : arr) {
-                if (s != null) temp[c++] = s;
+                if (s == null) continue;
+                else temp[c++] = s;
             }
             arr = temp;
         }
@@ -137,8 +156,9 @@ public class ListOfStrings implements ListOfStringInterface{
      */
     @Override
     public boolean contains(String str) {
-        for (String s : arr) {
-            if (s.equals(str)) return true;
+        for (int i = 0; i < getCapacity(); i++) {
+            if (arr[i]==null) continue;
+            else if (arr[i].equals(str)) return true;
         } return false;
     }
 
@@ -168,8 +188,10 @@ public class ListOfStrings implements ListOfStringInterface{
      */
     @Override
     public int firstIndexOf(String str) {
+        compress();
         for (int i = 0; i < getCapacity(); i++) {
-            if (arr[i].equals(str)) return i;
+            if (arr[i]==null) continue;
+            else if (arr[i].equals(str)) return i;
         } return -1;
     }
 
@@ -204,12 +226,23 @@ public class ListOfStrings implements ListOfStringInterface{
      */
     @Override
     public String getFirst() throws IllegalStateException {
-        return null;
+        compress();
+        if (isEmpty()) throw new IllegalStateException();
+        for (int i = 0; i < getCapacity(); i++) {
+            if (arr[i]==null) continue;
+            else return arr[i];
+        } throw new IllegalStateException();
     }
 
     @Override
     public String toString() {
-        return Arrays.toString(arr);
+        ArrayList<String> printer = new ArrayList<>();
+        for (int i = 0; i < getCapacity(); i++) {
+            if (arr[i]==null) continue;
+            else printer.add(arr[i]);
+        }
+        return printer.toString();
+        //return Arrays.toString(arr);
     }
 
     /**
@@ -220,7 +253,12 @@ public class ListOfStrings implements ListOfStringInterface{
      */
     @Override
     public String getLast() throws IllegalStateException {
-        return null;
+        compress();
+        if (isEmpty()) throw new IllegalStateException();
+        for (int i = getCapacity()-1; i >=0; i--){
+            if (arr[i]==null) continue;
+            else return arr[i];
+        } throw new IllegalStateException();
     }
 
     /**
@@ -230,7 +268,7 @@ public class ListOfStrings implements ListOfStringInterface{
      */
     @Override
     public boolean isEmpty() {
-        return false;
+        return size()==0;
     }
 
     /**
@@ -243,7 +281,10 @@ public class ListOfStrings implements ListOfStringInterface{
      */
     @Override
     public int lastIndexOf(String str) {
-        return 0;
+        compress();
+        for (int i = getCapacity()-1; i >= 0; i--) {
+            if (arr[i].equals(str)) return i;
+        } return -1;
     }
 
     /**
@@ -255,7 +296,7 @@ public class ListOfStrings implements ListOfStringInterface{
      */
     @Override
     public String remove(String str) {
-        return null;
+        return arr[firstIndexOf(str)];
     }
 
     /**
@@ -268,7 +309,13 @@ public class ListOfStrings implements ListOfStringInterface{
      */
     @Override
     public String remove(int i) throws IndexOutOfBoundsException {
-        return null;
+        if (i < 0 || i > getCapacity()-1) throw new IndexOutOfBoundsException();
+        compress();
+        String s = arr[i];
+        arr[i] = null;
+        size--;
+        compress();
+        return s;
     }
 
     /**
@@ -279,7 +326,8 @@ public class ListOfStrings implements ListOfStringInterface{
      */
     @Override
     public String removeFirst() throws IllegalStateException {
-        return null;
+        if (isEmpty()) throw new IllegalStateException();
+        return remove(0);
     }
 
     /**
@@ -290,7 +338,9 @@ public class ListOfStrings implements ListOfStringInterface{
      */
     @Override
     public String removeLast() throws IllegalStateException {
-        return null;
+        if (isEmpty()) throw new IllegalStateException();
+        compress();
+        return remove(getCapacity()-1);
     }
 
     /**
@@ -304,7 +354,11 @@ public class ListOfStrings implements ListOfStringInterface{
      */
     @Override
     public String set(int i, String str) throws IndexOutOfBoundsException {
-        return null;
+        compress();
+        if (i < 0 || i > getCapacity()-1) throw new IndexOutOfBoundsException();
+        String s = arr[i];
+        arr[i] = str;
+        return s;
     }
 
     /**
@@ -317,7 +371,8 @@ public class ListOfStrings implements ListOfStringInterface{
      */
     @Override
     public String setFirst(String str) throws IllegalStateException {
-        return null;
+        if (isEmpty()) throw new IllegalStateException();
+        return set(0, str);
     }
 
     /**
@@ -330,7 +385,9 @@ public class ListOfStrings implements ListOfStringInterface{
      */
     @Override
     public String setLast(String str) throws IllegalStateException {
-        return null;
+        if (isEmpty()) throw new IllegalStateException();
+        compress();
+        return set(getCapacity()-1, str);
     }
 
     /**
@@ -340,6 +397,6 @@ public class ListOfStrings implements ListOfStringInterface{
      */
     @Override
     public int size() {
-        return 0;
+        return size;
     }
 }

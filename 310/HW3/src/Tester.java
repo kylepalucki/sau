@@ -113,7 +113,7 @@ public class Tester {
       
         list.add("a");
         tests.add(new TestResult("add1 part 1", "[a]", list.toString()));
-      
+        
         list.add("b");
         tests.add(new TestResult("add1 part 2", "[a, b]", list.toString()));
 
@@ -128,16 +128,16 @@ public class Tester {
         
         list.addFirst("y");
         tests.add(new TestResult("add1 part 6", "[y, z, a, b, c, d]", list.toString()));
-        System.out.println(list);
+
         list.addLast("e");
         tests.add(new TestResult("add1 part 7", "[y, z, a, b, c, d, e]", list.toString()));
-        System.out.println(list);
+        
         list.add(0, "x");
         tests.add(new TestResult("add1 part 8", "[x, y, z, a, b, c, d, e]", list.toString()));
-        System.out.println(list);
+        
         list.add(7, "1");
         tests.add(new TestResult("add1 part 9", "[x, y, z, a, b, c, d, 1, e]", list.toString()));
-        System.out.println(list);
+        
         list.add(9, "2");
         tests.add(new TestResult("add1 part 10", "[x, y, z, a, b, c, d, 1, e, 2]", list.toString()));
 

@@ -41,10 +41,12 @@ public class ListOfStrings implements ListOfStringInterface{
             ensureCapacity(getCapacity()+DEFAULT_CAPACITY);
             arr[i] = str;
             size++;
+            return;
         }
         if (arr[i] == null) {
             arr[i] = str;
             size++;
+            return;
         }
         else {
             if (size()==getCapacity()) {
@@ -116,9 +118,6 @@ public class ListOfStrings implements ListOfStringInterface{
         ensureCapacity(getCapacity()+DEFAULT_CAPACITY);
         arr[getCapacity()-DEFAULT_CAPACITY] = str;
         size++;
-        
-        
-
     }
 
     /**
@@ -233,6 +232,7 @@ public class ListOfStrings implements ListOfStringInterface{
             else return arr[i];
         } throw new IllegalStateException();
     }
+
 
     @Override
     public String toString() {

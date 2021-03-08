@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/310.iml" filepath="$PROJECT_DIR$/310.iml" />
+      <module fileurl="file://$PROJECT_DIR$/AVG/AVG.iml" filepath="$PROJECT_DIR$/AVG/AVG.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HW01/HW01.iml" filepath="$PROJECT_DIR$/HW01/HW01.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HW02/HW02.iml" filepath="$PROJECT_DIR$/HW02/HW02.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HW03/HW03.iml" filepath="$PROJECT_DIR$/HW03/HW03.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HW04/HW04.iml" filepath="$PROJECT_DIR$/HW04/HW04.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HW05/HW05.iml" filepath="$PROJECT_DIR$/HW05/HW05.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HW06/HW06.iml" filepath="$PROJECT_DIR$/HW06/HW06.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HW07/HW07.iml" filepath="$PROJECT_DIR$/HW07/HW07.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HW10/HW10.iml" filepath="$PROJECT_DIR$/HW10/HW10.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HW12/HW12.iml" filepath="$PROJECT_DIR$/HW12/HW12.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HW3/HW3.iml" filepath="$PROJECT_DIR$/HW3/HW3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HW5/HW5.iml" filepath="$PROJECT_DIR$/HW5/HW5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HW6/HW6.iml" filepath="$PROJECT_DIR$/HW6/HW6.iml" />
+      <module fileurl="file://$PROJECT_DIR$/HW7/HW7.iml" filepath="$PROJECT_DIR$/HW7/HW7.iml" />
+    </modules>
+  </component>
+</project>

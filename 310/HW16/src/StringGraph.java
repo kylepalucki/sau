@@ -1,4 +1,6 @@
 
+import java.util.*;
+
 /**
  * Kyle Palucki
  */
@@ -30,7 +32,88 @@ public class StringGraph implements Graph{
         this(capacity);
         addVertices(initVertices);
         addEdges(initEdges);
+
     }
+
+    @Override
+    public boolean isConnected() {
+        String[] newLabels = dfsOrder(labels[0]);
+        return newLabels.length == getVertexLabels().length;
+    }
+
+    @Override
+    public Graph bfsTree(String vertex) {
+        String[] bfs = bfsOrder(vertex);
+        Graph result = new StringGraph(bfs);
+        return result;
+    }
+
+    @Override
+    public Graph dfsTree(String vertex) {
+        String[] dfs = dfsOrder(vertex);
+        Graph result = new StringGraph(dfs);
+        return result;
+    }
+
+    @Override
+    public String[] bfsOrder(String vertex) {
+        //PriorityQueue<String> q = new PriorityQueue<>();
+        Queue<String> q = new Queue<>();
+        ArrayList<String> visited = new ArrayList<>();
+        visited.add(vertex);
+        q.enqueue(vertex);
+        while (!q.isEmpty()) {
+            String u = q.dequeue();
+            String[] neighbors = getNeighbors(u);
+            for (String w : neighbors) {
+                if (!visited.contains(w)) {
+                    visited.add(w);
+                    q.enqueue(w);
+                }
+            }
+        }
+        String[] vertices = new String[visited.size()];
+        for (int i = 0; i < vertices.length; i++) {
+            vertices[i] = visited.get(i);
+        }
+        return vertices;
+    }
+
+    @Override
+    public String[] dfsOrder(String vertex) {
+        Stack<String> s = new Stack<>();
+        ArrayList<String> visited = new ArrayList<>();
+        int x = 0;
+        visited.add(vertex);
+        s.push(vertex);
+        while (!s.isEmpty()) {
+            String[] neighbors = getNeighbors(s.peek());
+            Arrays.sort(neighbors);
+            int tosNeighbors = neighbors.length;
+            int c = 0;
+            for (String n : neighbors) {
+                if (visited.contains(n)) c++;
+            }
+            if (tosNeighbors==c) {
+                s.pop();
+            } else {
+                for (String u : neighbors) {
+                    Arrays.sort(neighbors);
+                    if (!visited.contains(u)) {
+                        s.push(u);
+                        visited.add(u);
+                        break;
+                    }
+                }
+            }
+        }
+        String[] vertices = new String[visited.size()];
+        for (int i = 0; i < vertices.length; i++) {
+            vertices[i] = visited.get(i);
+        }
+        return vertices;
+    }
+
 
     @Override
     public int numberOfVertices() {
@@ -123,17 +206,6 @@ public class StringGraph implements Graph{
         edgeMatrix[i2][i1] = true;
         numEdges++;
     }
-
-
-
-    /**
-     * Adds one or more edges. Each row i in the edges parameter represents
-     * the pair of vertices edges[i][0] and edges[i][1] for a new edge.
-     * @param edges a 2 x w array of vertices
-     * @throws RuntimeException if, for any pair of vertices v1, v2 in the
-     * parameter, edge {v1, v2} already exists in this graph or if v1 or v2
-     * are not vertices in this graph.
-     */
 
     @Override
     public void addEdges(String[][] edges) throws RuntimeException {

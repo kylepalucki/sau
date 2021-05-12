@@ -15,6 +15,58 @@
 public interface Graph {
 
     /**
+     * Determines if the graph is connected.
+     *
+     * @return true if the graph is connected, false otherwise.
+     */
+    boolean isConnected();
+
+    /**
+     * Performs a Breadth First Search traversal starting at a given vertex.
+     * Constructs and returns a BFS spanning tree of the connected component
+     * containing the vertex. Adjacent vertices are visited in the lexicographical
+     * order of their labels.
+     *
+     * @param vertex the vertex at which the BFS traversal is started
+     * @return a BFS spanning tree of the connected component containing the given
+     *         vertex.
+     */
+    Graph bfsTree(String vertex);
+
+    /**
+     * Performs a Depth First Search traversal starting at a given vertex.
+     * Constructs and returns a DFS spanning tree of the connected component
+     * containing the vertex. Adjacent vertices are visited in the lexicographical
+     * order of their labels.
+     *
+     * @param vertex the vertex at which the DFS traversal is started
+     * @return a DFS spanning tree of the connected component containing the given
+     *         vertex.
+     */
+    Graph dfsTree(String vertex);
+
+    /**
+     * Performs a Breadth First Search traversal starting at a given vertex. The
+     * label of each vertex visited is added to an array of Strings in the order
+     * visited.
+     *
+     * @param vertex the vertex at which the BFS traversal is started
+     * @return an array of Strings containing the labels of the vertices visited in
+     *         the order that they were visited.
+     */
+    String[] bfsOrder(String vertex);
+
+    /**
+     * Performs a Depth First Search traversal starting at a given vertex. The label
+     * of each vertex visited is added to an array of Strings in the order visited.
+     *
+     * @param vertex the vertex at which the DFS traversal is started
+     * @return an array of Strings containing the labels of the vertices visited in
+     *         the order that they were visited.
+     */
+    String[] dfsOrder(String vertex);
+
+    /**
      * Returns the number of vertices in this graph (the "order" of this graph).
      *
      * @return the number of vertices in this graph
